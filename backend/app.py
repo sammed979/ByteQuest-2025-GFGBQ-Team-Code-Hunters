@@ -51,8 +51,23 @@ def predict():
         if isinstance(data['gender'], str):
             data['gender'] = 1 if data['gender'].lower() == 'male' else 0
         
+        # Extract only the features needed for the model (exclude patient_name)
+        model_features = {
+            'age': data['age'],
+            'gender': data['gender'],
+            'fever': data['fever'],
+            'cough': data['cough'],
+            'headache': data['headache'],
+            'fatigue': data['fatigue'],
+            'bp_systolic': data['bp_systolic'],
+            'spo2': data['spo2'],
+            'hemoglobin': data['hemoglobin'],
+            'wbc': data['wbc'],
+            'platelet': data['platelet']
+        }
+        
         # Get predictions
-        predictions = clinical_model.predict(data)
+        predictions = clinical_model.predict(model_features)
         
         # Get feature importance
         feature_importance = clinical_model.get_feature_importance()
