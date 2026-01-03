@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Clinical Decision Support System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="icon">🩺</span>
+                <h1>AI Clinical Decision Support System</h1>
+            </div>
+            <p class="tagline">Intelligent healthcare assistance for better clinical decisions</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Patient Input Form -->
+        <section class="card form-section">
+            <h2 class="section-title">Patient Information & Clinical Data</h2>
+
+            <form id="patientForm">
+                <!-- Patient Name -->
+                <div class="form-group">
+                    <label for="patient_name">Patient Name <span class="required">*</span></label>
+                    <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient's full name"
+                        required>
+                </div>
+
+                <!-- Demographic Information -->
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="age">Age (years) <span class="required">*</span></label>
+                        <input type="number" id="age" name="age" min="1" max="120" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender <span class="required">*</span></label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Symptoms Section -->
+                <div class="subsection">
+                    <h3>Clinical Symptoms</h3>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fever" name="fever">
+                            <label for="fever">Fever</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cough" name="cough">
+                            <label for="cough">Cough</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="headache" name="headache">
+                            <label for="headache">Headache</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fatigue" name="fatigue">
+                            <label for="fatigue">Fatigue</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vital Signs -->
+                <div class="subsection">
+                    <h3>Vital Signs</h3>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="bp_systolic">Blood Pressure - Systolic (mmHg) <span
+                                    class="required">*</span></label>
+                            <input type="number" id="bp_systolic" name="bp_systolic" min="50" max="250" required>
+                            <small>Normal: 90-120 mmHg</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="spo2">Oxygen Saturation - SpO₂ (%) <span class="required">*</span></label>
+                            <input type="number" id="spo2" name="spo2" min="50" max="100" required>
+                            <small>Normal: 95-100%</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Laboratory Values -->
+                <div class="subsection">
+                    <h3>Laboratory Values</h3>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="hemoglobin">Hemoglobin (g/dL) <span class="required">*</span></label>
+                            <input type="number" id="hemoglobin" name="hemoglobin" step="0.1" min="5" max="20" required>
+                            <small>Normal: 12-16 g/dL</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wbc">WBC Count (/μL) <span class="required">*</span></label>
+                            <input type="number" id="wbc" name="wbc" min="1000" max="50000" required>
+                            <small>Normal: 4000-11000/μL</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="platelet">Platelet Count (/μL) <span class="required">*</span></label>
+                        <input type="number" id="platelet" name="platelet" min="10000" max="600000" required>
+                        <small>Normal: 150000-400000/μL</small>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-icon">🔍</span>
+                        Analyze Patient Data
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        <span class="btn-icon">🔄</span>
+                        Clear Form
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing clinical data with AI...</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <!-- Disease Predictions -->
+            <div class="card">
+                <h2 class="section-title">AI Diagnostic Analysis</h2>
+                <div id="predictionsContainer"></div>
+            </div>
+
+            <!-- Clinical Explanation -->
+            <div class="card">
+                <h2 class="section-title">Clinical Reasoning</h2>
+                <div id="explanationContainer"></div>
+            </div>
+
+            <!-- Treatment Suggestions -->
+            <div class="card">
+                <h2 class="section-title treatment-title">Treatment Support Guidelines</h2>
+                <div class="disclaimer-box">
+                    <strong>⚠️ IMPORTANT DISCLAIMER:</strong>
+                    <p>These are general supportive care guidelines only. NOT a prescription. Final treatment decisions
+                        must be made by the attending physician.</p>
+                </div>
+                <div id="treatmentContainer"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button id="downloadReportBtn" class="btn btn-success">
+                    <span class="btn-icon">📄</span>
+                    Download Clinical Report (PDF)
+                </button>
+                <button id="newAnalysisBtn" class="btn btn-secondary">
+                    <span class="btn-icon">➕</span>
+                    New Patient Analysis
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI Clinical Decision Support System | For Educational & Research Purposes</p>
+            <p><small>This system assists healthcare professionals and does not replace clinical judgment</small></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
