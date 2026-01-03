@@ -25,10 +25,11 @@ async function handleFormSubmit(e) {
 
     // Collect form data
     const formData = new FormData(patientForm);
+    const genderValue = formData.get('gender');
     const patientData = {
         patient_name: formData.get('patient_name'),
         age: parseInt(formData.get('age')),
-        gender: formData.get('gender'),
+        gender: genderValue === 'male' ? 1 : 0,
         fever: formData.get('fever') ? 1 : 0,
         cough: formData.get('cough') ? 1 : 0,
         headache: formData.get('headache') ? 1 : 0,
@@ -39,6 +40,8 @@ async function handleFormSubmit(e) {
         wbc: parseInt(formData.get('wbc')),
         platelet: parseInt(formData.get('platelet'))
     };
+    
+    console.log('Gender selected:', genderValue, '-> converted to:', patientData.gender);
 
     // Validate data
     if (!validatePatientData(patientData)) {
